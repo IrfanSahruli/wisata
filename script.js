@@ -227,3 +227,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });  
+
+//Fungsi Kirim Pesan Kontak
+document.getElementById("formKontak").addEventListener("submit", function (e) {
+    e.preventDefault();
+    alert("Pesan berhasil dikirim");
+    this.reset();
+});
