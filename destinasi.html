@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sulawesi Tengah</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <nav class="navbar">
@@ -72,6 +73,9 @@
         </div>
     </div>
 
+    <h3 class="peta-title">Peta Lokasi Destinasi Wisata</h3>
+    <div id="peta"></div>
+
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -102,7 +106,53 @@
             <p>&copy; 2025 SulTeng. All rights reserved.</p>
         </div>
     </footer>
-    
+
+    <!-- Peta dari Library Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Membuat dan Menampilkan Peta Sulawesi Tengah
+        const map = L.map('peta').setView([-1.4309, 121.4456], 6); 
+
+        // Menambahkan Gambar Gambar dari Peta
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Array untuk Destinasi dan Koordinatnya
+        const destinasi = [
+            {
+                nama: "Pantai Tanjung Karang",
+                koordinat: [-0.643868, 119.729131]
+            },
+            {
+                nama: "Pusentasi",
+                koordinat: [-0.709521, 119.666913]
+            },
+            {
+                nama: "Cagar Alam Morowali",
+                koordinat: [-1.664942, 121.483516]
+            },
+            {
+                nama: "Danau Poso",
+                koordinat: [-1.882119, 120.567231]
+            },
+            {
+                nama: "Danau Tambing",
+                koordinat: [-1.326335, 120.308959]
+            },
+            {
+                nama: "Pulau Kadidiri",
+                koordinat: [-0.358763, 121.846577]
+            }
+        ];
+
+        // Marker untuk Lokasinya
+        destinasi.forEach(dest => {
+            L.marker(dest.koordinat)
+            .addTo(map)
+            .bindPopup(`<b>${dest.nama}</b>`);
+        });
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
