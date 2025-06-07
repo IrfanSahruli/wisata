@@ -205,6 +205,19 @@ body {
   background-color: #d68910;
 }
 
+.peta-title {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#peta {
+  width: 100%;
+  height: 400px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
 /* Detail Destinasi Style */
 .detail-destinasi {
   padding: 4rem 2rem;
