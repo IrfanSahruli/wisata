@@ -209,6 +209,52 @@ document.addEventListener("DOMContentLoaded", function () {
     const popupForm = document.getElementById("popupForm");
     const btnClose = document.getElementById("btnClose");
     const formPesanan = document.getElementById("formPesanan");
+    const inputs = formPesanan.querySelectorAll("input[required], textarea[required]");
+
+    function showError(input, message) {
+        let error = input.parentElement.querySelector(".error-message");
+        if (!error) {
+            error = document.createElement("div");
+            error.classList.add("error-message");
+            input.parentElement.appendChild(error);
+        }
+        error.textContent = message;
+        input.classList.add("input-error");
+        input.classList.remove("input-valid");
+    }
+
+    function clearError(input) {
+        const error = input.parentElement.querySelector(".error-message");
+        if (error) error.remove();
+        input.classList.remove("input-error");
+        input.classList.add("input-valid");
+    }
+
+    function validateInput(input) {
+        if (!input.value.trim()) {
+            showError(input, "Field ini wajib diisi.");
+            return false;
+        }
+
+        if (input.type === "email") {
+            const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+            if (!emailPattern.test(input.value.trim())) {
+                showError(input, "Email tidak valid.");
+                return false;
+            }
+        }
+
+        if (input.type === "tel") {
+            const phonePattern = /^[0-9\s()+-]+$/;
+            if (!phonePattern.test(input.value.trim())) {
+                showError(input, "No. telepon tidak valid.");
+                return false;
+            }
+        }
+
+        clearError(input);
+        return true;
+    }
 
     if (btnPesan && popupForm && btnClose) {
         btnPesan.addEventListener("click", () => {
@@ -217,16 +263,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
         btnClose.addEventListener("click", () => {
             popupForm.classList.add("hidden");
+            formPesanan.reset();
+            inputs.forEach((input) => clearError(input));
+        });
+
+        inputs.forEach((input) => {
+            input.addEventListener("input", () => validateInput(input));
         });
 
         formPesanan.addEventListener("submit", function (e) {
             e.preventDefault();
-            alert("Pesanan berhasil dibuat!");
-            popupForm.classList.add("hidden");
-            formPesanan.reset();
+            let valid = true;
+
+            inputs.forEach((input) => {
+                if (!validateInput(input)) valid = false;
+            });
+
+            if (valid) {
+                alert("Pesanan berhasil dibuat!");
+                popupForm.classList.add("hidden");
+                formPesanan.reset();
+                inputs.forEach((input) => clearError(input));
+            } else {
+                alert("Data tidak valid. Mohon isi dengan benar!");
+            }
         });
     }
-});  
+}); 
 
 //Fungsi Kirim Pesan Kontak
 document.getElementById("formKontak").addEventListener("submit", function (e) {
